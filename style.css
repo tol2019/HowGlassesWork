@@ -1,0 +1,19 @@
+html {
+  display: flex;
+  justify-content: center;
+}
+#main {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+#player {
+  margin: 0 auto;
+
+}
+
+#main-canvas {
+  position: absolute;
+  width: 800px;
+  height: 600px;
+}
