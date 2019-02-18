@@ -135,7 +135,7 @@ function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && scene === 0) {
     // done = false;
     // play the first video
-    calculateTime(2000);
+    calculateTime(26000);
 
   }
 
