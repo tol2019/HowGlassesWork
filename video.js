@@ -86,7 +86,8 @@ function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && scene === 0) {
     // done = false;
     // play the first video
-    setTimeout(stopVideo, 28000);
+    // setTimeout(stopVideo, 28000);
+    setTimeout(stopVideo, 2000);
   }
 
   if (player.getPlayerState() === 2) {
@@ -361,6 +362,13 @@ function drawBackground() {
     ctx.drawImage(originalimg, 50, 250, 100, 100);
   }
   originalimg.src = "assets/img/vision_clear.png";
+
+  ctx.font = "18px Arial";
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+  ctx.fillText("Object", 95, 400);
+  ctx.fillText("Light", 360, 380);
+  ctx.fillText("Vision", 850, 450);
 }
 
 function checkAnswer() {
@@ -480,4 +488,6 @@ function drawLines() {
   ctx.lineTo(x[2], y2[2]);
   ctx.lineTo(x[3], y2[3]);
   ctx.stroke();
+
+  
 }
