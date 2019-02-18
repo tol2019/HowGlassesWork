@@ -28,14 +28,19 @@ let y2 = [320, 320, 320, 300]
 // video player code from youtube
 var tag = document.createElement('script');
 
-var vid01 = 'gb304u_rMpo';
-var vid02 = '3OJXZnSBrE4';
-var vid03 = 'dhWzrwvgES4';
+// var vid01 = 'gb304u_rMpo';
+// var vid02 = '3OJXZnSBrE4';
+// var vid03 = 'dhWzrwvgES4';
 
 //Combined video: lLGSiA6brNY
-var vid01 = 'lLGSiA6brNY';
-var vid02 = 'lLGSiA6brNY';
-var vid03 = 'lLGSiA6brNY';
+// var vid01 = 'lLGSiA6brNY';
+// var vid02 = 'lLGSiA6brNY';
+// var vid03 = 'lLGSiA6brNY';
+
+// updated combined video:
+var vid01 = 'KTwxzv_Nz3Y';
+var vid02 = 'KTwxzv_Nz3Y';
+var vid03 = 'KTwxzv_Nz3Y';
 
 var backgroundPlayed = false;
 

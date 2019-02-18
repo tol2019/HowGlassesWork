@@ -51,6 +51,8 @@ html {
   /* margin-top: 650px; */
   font-size: 1.2em;
   height: 115px;
+  width: 1200px;
+  padding: 0 200px;
   background-color: white;
   text-align: center;
 }
