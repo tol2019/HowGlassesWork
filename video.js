@@ -13,6 +13,9 @@ var scene = 0;
 var selected = 0;
 var correct = 1;
 
+// explore
+var inExplore = true;
+
 // quiz variables
 var inQuiz = false;
 var quiz = 0;
@@ -36,6 +39,9 @@ var vid03 = 'lLGSiA6brNY';
 
 var backgroundPlayed = false;
 
+var paused = false;
+
+
 
 
 tag.src = "https://www.youtube.com/iframe_api";
@@ -50,7 +56,7 @@ function onYouTubeIframeAPIReady() {
     height: '600',
     width: '900',
     videoId: vid01,
-    playerVars: { 'autoplay': 0, 'controls': 0 },
+    playerVars: { 'autoplay': 0, 'controls': 0 , 'showinfo': 0, 'modestbranding':1},
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
@@ -66,6 +72,11 @@ function loadVideo(id, startSeconds, endSeconds, suggestedQuality) {
     'suggestedQuality': suggestedQuality
   });
 
+  let videoLength = endSeconds - startSeconds;
+  videoLength *= 1000;
+
+  calculateTime(videoLength);
+
 }
 
 // 4. The API will call this function when the video player is ready.
@@ -76,6 +87,42 @@ function onPlayerReady(event) {
 function stopVideo() {
   player.stopVideo();
   scene += 1;
+
+}
+
+function calculateTime(videoLength){
+  let length = 0;
+  console.log(videoLength);
+  
+  var interval = setInterval(function () {
+    if(player.getPlayerState() === 2) { // paused
+      paused = true;
+    }
+    if(player.getPlayerState() === 1) { // playing
+      paused = false;
+    }
+    if (!paused) {
+      length += 500;
+    }
+    console.log(length);
+
+    if (length >= videoLength) {
+
+      stopVideo();
+      clearInterval(interval);
+      console.log("interval cleared");
+    }
+
+    $("#next").click(function(){
+      clearInterval(interval);
+    });
+
+    $('#tell').click(function () {
+      clearInterval(interval);
+    });
+  }, 500);
+
+  
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -86,8 +133,10 @@ function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && scene === 0) {
     // done = false;
     // play the first video
-    // setTimeout(stopVideo, 28000);
-    setTimeout(stopVideo, 2000);
+    // setTimeout(stopVideo, 26000);
+    // setTimeout(stopVideo, 2000);
+    calculateTime(26000);
+
   }
 
   if (player.getPlayerState() === 2) {
@@ -201,7 +250,11 @@ function explore() {
 
     drawLines();
 
-    checkAnswer();
+    if (inExplore){
+      checkAnswer();
+    }
+
+    
   });
 }
 
@@ -216,6 +269,8 @@ function doQuiz() {
   $("#quiz").show();
 
   if (inQuiz) {
+    $("#message").hide();
+    $("#choose-one").hide();
     switch (quiz) {
       case 1:
         correct_choice = 1;
@@ -369,21 +424,26 @@ function drawBackground() {
   ctx.fillText("Object", 95, 400);
   ctx.fillText("Light", 360, 380);
   ctx.fillText("Vision", 850, 450);
+  ctx.fillText("Eyes", 600, 400);
 }
 
 function checkAnswer() {
   if (selected === correct) {
-    $("#message p").html("Good! Your helped our friend see clearly. Let's go on and try another one!");
-    correct += 1;
-    $('.glasses').hide();
-    $("#next").show();
+    $("#message p").html("Good! Your helped our friend see clearly. Let's go on and try another one! You can also play around on this situation to see the effects.");
+    inExplore = false;
+    
+    // $('.glasses').hide();
+    $("#message").append("<button class='btn btn-outline-secondary' id='next'>Next One!</button>")
+    // $("#next").show();
 
     $("#next").click(function () {
+      inExplore = true;
+      correct += 1;
       $(".glasses").css({ "border": "1px solid aquamarine" });
       $("#message p").html("");
       selected = 0;
-      $(".glasses").show();
-      $("#next").hide();
+      // $(".glasses").show();
+      $("#next").remove();
       backgroundPlayed = false;
       stopVideo();
       // scene = 1;
@@ -397,18 +457,20 @@ function checkAnswer() {
     $("#message p").html("Ah oh... it seems Greg can still not see it clearly. Lets's try another one!");
   }
 
-  if (correct > 3) {
+  if (correct >= 3 && selected === correct) {
     $("#message p").html("Good! Your helped our friend see clearly. Now it's time to learn more about how glasses work. Let's go to the video!");
     var nextButton = "<button id='tell' class='btn btn-outline-secondary'>Let's Watch A Video!</button>"
     $("#next").hide();
+    $("#tell").remove();
     $("#message").append(nextButton);
     $('#tell').click(function () {
       stopVideo();
       console.log("tell");
       scene = 4;
       loadVideo(vid02, 32, 158, 'large');
-      setTimeout(stopVideo, 126000);
+      // setTimeout(stopVideo, 126000);
       $("#main-canvas").hide();
+      $(".glasses").hide();
       $("#message").hide();
       $("#player").show();
     });
@@ -422,18 +484,29 @@ function drawCorrectedImage() {
     ctx.drawImage(img, 750, 200, 200, 200);
   }
 
+  img.src = "assets/img/vision_blur.png";
+
   if (selected === correct) {
     img.src = "assets/img/vision_clear.png";
-  } else if (correct !== 3 && selected === 3) {
+  }
+  
+  if (correct !== 3 && selected === 3) {
     img.src = "assets/img/vision_blur.png";
-  } else if (correct === 1 && selected === 2 || correct === 2 && selected === 1) {
+  } 
+  
+  if (correct === 1 && selected === 2 || correct === 2 && selected === 1) {
     console.log("more blur")
     img.src = "assets/img/vision_blur more.png";
-  } else if (correct === 3) {
+  } 
+
+  if (correct === 3) {
     img.src = "assets/img/vision_clear.png";
-  } else {
-    img.src = "assets/img/vision_blur.png";
-  }
+    if(selected !== 0 && selected !== 3){
+      console.log("case 3, wrong answer");
+      img.src = "assets/img/vision_blur.png";
+    }
+  } 
+
 }
 
 function initializeLines() {
@@ -462,7 +535,7 @@ function initializeLines() {
       break;
     case 3:
       if (!backgroundPlayed) {
-        loadVideo(vid01, 229, 246, 'large');
+        loadVideo(vid01, 229, 249, 'large');
         backgroundPlayed = true;
       }
 
@@ -486,6 +559,4 @@ function drawLines() {
   ctx.lineTo(x[2], y2[2]);
   ctx.lineTo(x[3], y2[3]);
   ctx.stroke();
-
-
 }
