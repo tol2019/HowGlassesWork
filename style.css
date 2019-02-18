@@ -50,15 +50,19 @@ html {
 }
 
 #quiz {
-  width: 600px;
+  width: 720px;
   border: 1px solid #888;
   padding: 20px;
   border-radius: 10px;
 }
 
-.choices {
+.choices, #again-quiz, #next-quiz{
   display: block;
 
   width: 200px;
   margin: 10px 50px;
+}
+
+#problem-statement img{
+  width: 100%;
 }

@@ -248,6 +248,7 @@ function doQuiz() {
       case 2:
         correct_choice = 3;
         $("#problem-statement").html("Q2: The picture on the left shows the light path when there is no lenses. If we put a lens there, as the right picture shows, where would the light focus?");
+        $("#problem-statement").append("<img src='./assets/img/Q2-01.png' >")
         choice01 = "<button id=1 class='choices btn btn-outline-secondary'>Point A</button>"
         choice02 = "<button id=2 class='choices btn btn-outline-secondary'>Point B</button>"
         choice03 = "<button id=3 class='choices btn btn-outline-secondary'>Point C</button>"
@@ -289,6 +290,7 @@ function doQuiz() {
 
         correct_choice = 1;
         $("#problem-statement").html("Q3: In the picture below, light passes through a lens in the box and changes its path. Do you know which type of lens it is?");
+        $("#problem-statement").append("<img src='./assets/img/Q3-01.png' >")
         choice01 = "<button id=1 class='choices btn btn-outline-secondary'>Convex</button>"
         choice02 = "<button id=2 class='choices btn btn-outline-secondary'>Concave</button>"
         choice03 = "<button id=3 class='choices btn btn-outline-secondary'>Flat</button>"
@@ -361,6 +363,7 @@ function checkAnswer() {
 
     $("#next").click(function () {
       $(".glasses").css({ "border": "1px solid aquamarine" });
+      $("#message p").html("");
       selected = 0;
       $(".glasses").show();
       $("#next").hide();
