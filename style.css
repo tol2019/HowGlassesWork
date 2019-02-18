@@ -9,10 +9,12 @@ html {
   /* width: 100%; */
 }
 #player {
-  /* position: absolute; */
-  top: 20%;
+  position: absolute;
+  top: 30%;
+  left: 25%;
   margin: auto;
   display: block;
+  z-index: -10;
 }
 
 #main-canvas {

@@ -29,6 +29,12 @@ var vid01 = 'gb304u_rMpo';
 var vid02 = '3OJXZnSBrE4';
 var vid03 = 'dhWzrwvgES4';
 
+//Combined video: lLGSiA6brNY
+var vid01 = 'lLGSiA6brNY';
+var vid02 = 'lLGSiA6brNY';
+var vid03 = 'lLGSiA6brNY';
+
+var backgroundPlayed = false;
 
 
 
@@ -41,7 +47,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
-    height: '488',
+    height: '533',
     width: '800',
     videoId: vid01,
     playerVars: { 'autoplay': 0, 'controls': 0 },
@@ -80,7 +86,7 @@ function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && scene === 0) {
     // done = false;
     // play the first video
-    setTimeout(stopVideo, 5000);
+    setTimeout(stopVideo, 28000);
   }
 
   if (player.getPlayerState() === 2) {
@@ -92,15 +98,15 @@ function onPlayerStateChange(event) {
 
         break;
 
-      case 2:
-        console.log(scene);
+      // case 4:
+      //   console.log(scene);
 
-        break;
-      case 3:
+      //   break;
+      case 5:
         console.log(scene);
-        loadVideo(vid03, 1, 10, 'large');
+        // loadVideo(vid03, 66, 158, 'large');
         
-        setTimeout(stopVideo, 4000);
+        // setTimeout(stopVideo, 4000);
         break;
 
       default:
@@ -113,7 +119,7 @@ function onPlayerStateChange(event) {
       explore();
     }
 
-    if (scene === 4) {
+    if (scene === 5) {
       inQuiz = true;
       console.log("quiz");
 
@@ -131,7 +137,7 @@ function explore() {
   $(".glasses").show();
 
   console.log("scene 3");
-  $("#player").hide();
+  // $("#player").hide();
   $("#main-canvas").show();
   // shwoing canvas
   clearCanvas();
@@ -159,23 +165,26 @@ function explore() {
     switch (this.id) {
       case "1":
         selected = 1;
-        glassesimg.src = "assets/img/convex.png";
+        glassesimg.src = "assets/img/concave.png";
 
+        drawCorrectedImage();
+
+        x[3] += 20;
+        y1[2] -= 10;
+        y2[2] += 10;
+
+
+        break;
+      case "2":
+        selected = 2;
+        glassesimg.src = "assets/img/convex.png";
         drawCorrectedImage();
 
         x[3] -= 20;
         y1[2] += 10;
         y2[2] -= 10;
 
-        break;
-      case "2":
-        selected = 2;
-        glassesimg.src = "assets/img/concave.png";
-        drawCorrectedImage();
-
-        x[3] += 20;
-        y1[2] -= 10;
-        y2[2] += 10;
+        
         break;
 
       case "3":
@@ -367,11 +376,16 @@ function checkAnswer() {
       selected = 0;
       $(".glasses").show();
       $("#next").hide();
+      backgroundPlayed = false;
+      stopVideo();
+      // scene = 1;
       clearCanvas();
       drawBackground();
       initializeLines();
       drawLines();
       drawCorrectedImage();
+
+      
 
     });
   } else {
@@ -383,16 +397,15 @@ function checkAnswer() {
     $("#next").hide();
     $("#message").append(nextButton);
     $('#tell').click(function () {
+      stopVideo();
       console.log("tell");
-      scene += 1;
-      loadVideo(vid02, 1, 5, 'large');
-      setTimeout(stopVideo, 1000);
+      scene = 4;
+      loadVideo(vid02, 32, 158, 'large');
+      setTimeout(stopVideo, 126000);
       $("#main-canvas").hide();
       $("#message").hide();
       $("#player").show();
     });
-
-    
   }
 
 }
@@ -418,20 +431,35 @@ function drawCorrectedImage() {
 }
 
 function initializeLines() {
+
+  
   x = [150, 496, 580, 690];
   y1 = [280, 280, 280, 300];
   y2 = [320, 320, 320, 300];
 
   switch (correct) {
     case 1:
-      x[3] += 20
+      if (!backgroundPlayed){
+        loadVideo(vid01, 163, 200, 'large');
+        backgroundPlayed = true;
+      }
+      x[3] -= 20
+      
       break;
     case 2:
-
-      x[3] -= 20
+    if (!backgroundPlayed){
+      loadVideo(vid01, 206, 226, 'large');
+      backgroundPlayed = true;
+    }
+      
+    x[3] += 20
       break;
     case 3:
-
+    if (!backgroundPlayed){
+      loadVideo(vid01, 229, 246, 'large');
+      backgroundPlayed = true;
+    }
+      
       break;
     default:
       console.log("something wrong");
