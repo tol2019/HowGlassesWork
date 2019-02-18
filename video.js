@@ -6,6 +6,7 @@ $("#main-canvas").hide();
 $("#next").hide();
 $("#quiz").hide();
 $(".glasses").hide();
+$("#message").hide();
 
 // stores which scene to play
 var scene = 0;
@@ -32,15 +33,11 @@ var tag = document.createElement('script');
 // var vid02 = '3OJXZnSBrE4';
 // var vid03 = 'dhWzrwvgES4';
 
-//Combined video: lLGSiA6brNY
-// var vid01 = 'lLGSiA6brNY';
-// var vid02 = 'lLGSiA6brNY';
-// var vid03 = 'lLGSiA6brNY';
-
 // updated combined video:
-var vid01 = 'KTwxzv_Nz3Y';
-var vid02 = 'KTwxzv_Nz3Y';
-var vid03 = 'KTwxzv_Nz3Y';
+var vid01 = '3lisLHb_-u8';
+var vid02 = '3lisLHb_-u8';
+var vid03 = '3lisLHb_-u8';
+
 
 var backgroundPlayed = false;
 
@@ -138,9 +135,7 @@ function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && scene === 0) {
     // done = false;
     // play the first video
-    // setTimeout(stopVideo, 26000);
-    // setTimeout(stopVideo, 2000);
-    calculateTime(26000);
+    calculateTime(2000);
 
   }
 
@@ -190,6 +185,8 @@ function onPlayerStateChange(event) {
 function explore() {
   // let glasses = 0;
   $(".glasses").show();
+  $("#message").show();
+  $("#message p").html("Choose one of the three lenses to see if it helps our friend see clearly.");
 
   console.log("scene 3");
   // $("#player").hide();
@@ -434,7 +431,7 @@ function drawBackground() {
 
 function checkAnswer() {
   if (selected === correct) {
-    $("#message p").html("Good! Your helped our friend see clearly. Let's go on and try another one! You can also play around on this situation to see the effects.");
+    $("#message p").html("Good! Your helped our friend see clearly. Let's go on and try in another situation! You can also play around on this situation to see the effects.");
     inExplore = false;
     
     // $('.glasses').hide();
@@ -472,7 +469,7 @@ function checkAnswer() {
       stopVideo();
       console.log("tell");
       scene = 4;
-      loadVideo(vid02, 32, 158, 'large');
+      loadVideo(vid02, 32, 156, 'large');
       // setTimeout(stopVideo, 126000);
       $("#main-canvas").hide();
       $(".glasses").hide();
@@ -524,7 +521,7 @@ function initializeLines() {
   switch (correct) {
     case 1:
       if (!backgroundPlayed) {
-        loadVideo(vid01, 163, 200, 'large');
+        loadVideo(vid01, 163, 201, 'large');
         backgroundPlayed = true;
       }
       x[3] -= 20
@@ -532,7 +529,7 @@ function initializeLines() {
       break;
     case 2:
       if (!backgroundPlayed) {
-        loadVideo(vid01, 206, 226, 'large');
+        loadVideo(vid01, 206, 228, 'large');
         backgroundPlayed = true;
       }
 
@@ -540,7 +537,7 @@ function initializeLines() {
       break;
     case 3:
       if (!backgroundPlayed) {
-        loadVideo(vid01, 229, 249, 'large');
+        loadVideo(vid01, 229, 250, 'large');
         backgroundPlayed = true;
       }
 

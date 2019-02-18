@@ -13,16 +13,14 @@ html {
   align-self: center;
   top: 20%;
   left: 22.5%;
-
   display: block;
   z-index: -10;
 }
 
 #main-canvas {
-  /* position: absolute; */
-  /* top: 22%; */
   width: 1024px;
   height: 600px;
+  margin: 0 auto;
 }
 
 #choose-one {
@@ -50,7 +48,7 @@ html {
 #message {
   /* margin-top: 650px; */
   font-size: 1.2em;
-  height: 115px;
+  height: 135px;
   width: 1200px;
   padding: 0 200px;
   background-color: white;
@@ -63,6 +61,7 @@ html {
 #quiz {
   width: 720px;
   border: 1px solid #888;
+  margin: 10vh auto 0;
   padding: 20px;
   border-radius: 10px;
 }
@@ -72,6 +71,10 @@ html {
 
   width: 200px;
   margin: 10px 50px;
+}
+
+#next-quiz, #again-quiz {
+  margin: 0 auto;
 }
 
 #problem-statement img{
