@@ -47,8 +47,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
-    height: '533',
-    width: '800',
+    height: '600',
+    width: '900',
     videoId: vid01,
     playerVars: { 'autoplay': 0, 'controls': 0 },
     events: {
@@ -106,7 +106,7 @@ function onPlayerStateChange(event) {
       case 5:
         console.log(scene);
         // loadVideo(vid03, 66, 158, 'large');
-        
+
         // setTimeout(stopVideo, 4000);
         break;
 
@@ -126,7 +126,7 @@ function onPlayerStateChange(event) {
 
       quiz = 1;
       doQuiz();
-      
+
     }
   }
 }
@@ -185,7 +185,7 @@ function explore() {
         y1[2] += 10;
         y2[2] -= 10;
 
-        
+
         break;
 
       case "3":
@@ -216,7 +216,7 @@ function doQuiz() {
   $("#quiz").show();
 
   if (inQuiz) {
-    switch(quiz) {
+    switch (quiz) {
       case 1:
         correct_choice = 1;
         $("#problem-statement").html("Q1: If our friend, Greg, has myopic eyes, which type of lens does he need?");
@@ -225,9 +225,9 @@ function doQuiz() {
         choice03 = "<button id=3 class='choices btn btn-outline-secondary'>flat</button>"
         $("#choices").html("").append(choice01).append(choice02).append(choice03);
         $(".choices").click(function () {
-          if(this.id == correct_choice){
+          if (this.id == correct_choice) {
             $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-success");
-            feedback = "<p>Well done! Concave lenses are used to correct myopic eyes. Convex ones are used for farsightedness peopel, and flat ones does not have correction effects.</p>";
+            feedback = "<p>Well done! Concave lenses are used to correct myopic eyes. Convex ones are used for farsightedness people, and flat ones does not have correction effects.</p>";
             $("#feedback-correct").append(feedback);
             let nextButton = "<button id='next-quiz' class='btn btn-outline-dark'>Next Problem</button>";
             $("#feedback-correct").append(nextButton);
@@ -237,11 +237,11 @@ function doQuiz() {
               doQuiz();
             });
           } else {
-            $("#choices #"+ this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
-            if(this.id == 2){ 
+            $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
+            if (this.id == 2) {
               feedback = "Ooops! Actually, convex lenses are used for farsightedness. Since our friend has myopic eyes, which is nearsightedness, we need to use concave lenses. ";
             }
-            if (this.id == 3){
+            if (this.id == 3) {
               feedback = "Actually, flat lenses won't be able to help our friend see clearly. ";
             }
             $("#feedback-incorrect").append(feedback);
@@ -264,24 +264,24 @@ function doQuiz() {
         choice03 = "<button id=3 class='choices btn btn-outline-secondary'>Point C</button>"
         $("#choices").html("").append(choice01).append(choice02).append(choice03);
         $(".choices").click(function () {
-          if(this.id == correct_choice){
+          if (this.id == correct_choice) {
             $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-success");
             feedback = "<p>Right! This is a concave lens, and it expands light passing through. Thus the light would focus at Point C. Good job!</p>";
             $("#feedback-correct").append(feedback);
             var nextButton = "<button id='next-quiz' class='btn btn-outline-dark'>Next Problem!</button>"
             $("#feedback-correct").append(nextButton);
-            
+
             $("#next-quiz").click(function () {
               quiz = 3;
               $("#feedback-correct").html("");
               doQuiz();
             });
           } else {
-            $("#choices #"+ this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
-            if(this.id == 1){ 
+            $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
+            if (this.id == 1) {
               feedback = "Not quite. If the lens is a convex one, then the light will focus on Point A. But in the picture we used a concave lens. Try again!";
             }
-            if (this.id == 2){
+            if (this.id == 2) {
               feedback = "Not quite. If the lens is a flat one, then the light will focus on Point B. But in the picture we used a concave lens. Try again!";
             }
             $("#feedback-incorrect").append(feedback);
@@ -293,7 +293,7 @@ function doQuiz() {
             });
           }
           $(".choices").attr('disabled', 'disabled');
-          
+
         });
         break;
       case 3:
@@ -306,7 +306,7 @@ function doQuiz() {
         choice03 = "<button id=3 class='choices btn btn-outline-secondary'>Flat</button>"
         $("#choices").html("").append(choice01).append(choice02).append(choice03);
         $(".choices").click(function () {
-          if(this.id == correct_choice){
+          if (this.id == correct_choice) {
             $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-success");
             feedback = "You did it! Since the light is narrowed, we can infer that the lens in the box is a convex one. Good job!";
             $("#feedback-correct").append(feedback);
@@ -318,11 +318,11 @@ function doQuiz() {
               doQuiz();
             });
           } else {
-            $("#choices #"+ this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
-            if(this.id == 2){ 
+            $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
+            if (this.id == 2) {
               feedback = "Not quite. A concave lens will expand the light a bit, so the light path will go toward the outside. Try again!";
             }
-            if (this.id == 3){
+            if (this.id == 3) {
               feedback = "Nope. A flat lens won't change the light path. Try again!";
             }
             $("#feedback-incorrect").append(feedback);
@@ -392,15 +392,13 @@ function checkAnswer() {
       initializeLines();
       drawLines();
       drawCorrectedImage();
-
-      
-
     });
   } else {
-    $("#message p").html("..");
+    $("#message p").html("Ah oh... it seems Greg can still not see it clearly. Lets's try another one!");
   }
 
   if (correct > 3) {
+    $("#message p").html("Good! Your helped our friend see clearly. Now it's time to learn more about how glasses work. Let's go to the video!");
     var nextButton = "<button id='tell' class='btn btn-outline-secondary'>Let's Watch A Video!</button>"
     $("#next").hide();
     $("#message").append(nextButton);
@@ -440,34 +438,34 @@ function drawCorrectedImage() {
 
 function initializeLines() {
 
-  
+
   x = [150, 496, 580, 690];
   y1 = [280, 280, 280, 300];
   y2 = [320, 320, 320, 300];
 
   switch (correct) {
     case 1:
-      if (!backgroundPlayed){
+      if (!backgroundPlayed) {
         loadVideo(vid01, 163, 200, 'large');
         backgroundPlayed = true;
       }
       x[3] -= 20
-      
+
       break;
     case 2:
-    if (!backgroundPlayed){
-      loadVideo(vid01, 206, 226, 'large');
-      backgroundPlayed = true;
-    }
-      
-    x[3] += 20
+      if (!backgroundPlayed) {
+        loadVideo(vid01, 206, 226, 'large');
+        backgroundPlayed = true;
+      }
+
+      x[3] += 20
       break;
     case 3:
-    if (!backgroundPlayed){
-      loadVideo(vid01, 229, 246, 'large');
-      backgroundPlayed = true;
-    }
-      
+      if (!backgroundPlayed) {
+        loadVideo(vid01, 229, 246, 'large');
+        backgroundPlayed = true;
+      }
+
       break;
     default:
       console.log("something wrong");
@@ -489,5 +487,5 @@ function drawLines() {
   ctx.lineTo(x[3], y2[3]);
   ctx.stroke();
 
-  
+
 }
