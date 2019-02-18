@@ -1,0 +1,452 @@
+// canvas
+var canvas = document.getElementById("main-canvas");
+var ctx = canvas.getContext("2d");
+
+$("#main-canvas").hide();
+$("#next").hide();
+$("#quiz").hide();
+$(".glasses").hide();
+
+// stores which scene to play
+var scene = 0;
+
+var selected = 0;
+var correct = 1;
+
+// quiz variables
+var inQuiz = false;
+var quiz = 0;
+
+let x = [150, 496, 580, 690]
+let y1 = [280, 280, 280, 300]
+let y2 = [320, 320, 320, 300]
+
+
+// video player code from youtube
+var tag = document.createElement('script');
+
+var vid01 = 'gb304u_rMpo';
+var vid02 = '3OJXZnSBrE4';
+var vid03 = 'dhWzrwvgES4';
+
+
+
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '488',
+    width: '800',
+    videoId: vid01,
+    playerVars: { 'autoplay': 0, 'controls': 0 },
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+function loadVideo(id, startSeconds, endSeconds, suggestedQuality) {
+  player.loadVideoById({
+    'videoId': id,
+    'startSeconds': startSeconds,
+    'endSeconds': endSeconds,
+    'suggestedQuality': suggestedQuality
+  });
+
+}
+
+// 4. The API will call this function when the video player is ready.
+function onPlayerReady(event) {
+  event.target.playVideo();
+}
+
+function stopVideo() {
+  player.stopVideo();
+  scene += 1;
+}
+
+// 5. The API calls this function when the player's state changes.
+//    The function indicates that when playing a video (state=1),
+//    the player should play for 3 seconds and then stop.
+var done = false;
+function onPlayerStateChange(event) {
+  if (event.data == YT.PlayerState.PLAYING && scene === 0) {
+    // done = false;
+    // play the first video
+    setTimeout(stopVideo, 5000);
+  }
+
+  if (player.getPlayerState() === 2) {
+
+    $("#player").show();
+
+    switch (scene) {
+      case 1:
+
+        break;
+
+      case 2:
+        console.log(scene);
+
+        break;
+      case 3:
+        console.log(scene);
+        loadVideo(vid03, 1, 10, 'large');
+        
+        setTimeout(stopVideo, 4000);
+        break;
+
+      default:
+        console.log("default");
+    }
+
+    if (scene === 1) {
+      // farsightedness
+      correct = 1;
+      explore();
+    }
+
+    if (scene === 4) {
+      inQuiz = true;
+      console.log("quiz");
+
+      quiz = 1;
+      doQuiz();
+      
+    }
+  }
+}
+
+
+
+function explore() {
+  // let glasses = 0;
+  $(".glasses").show();
+
+  console.log("scene 3");
+  $("#player").hide();
+  $("#main-canvas").show();
+  // shwoing canvas
+  clearCanvas();
+  drawBackground();
+  // drawInitialImage();
+  initializeLines();
+  drawLines();
+  drawCorrectedImage();
+
+  $(".glasses").click(function () {
+    $(".glasses").css({ "border": "1px solid aquamarine" });
+    $("#" + this.id).css({ "border": "2px solid black" });
+
+    clearCanvas();
+    drawBackground();
+    initializeLines();
+
+    // drawCorrectedImage();
+
+    let glassesimg = new Image();
+    glassesimg.onload = function () {
+      ctx.drawImage(glassesimg, 480, 220, 32, 160);
+    }
+
+    switch (this.id) {
+      case "1":
+        selected = 1;
+        glassesimg.src = "assets/img/convex.png";
+
+        drawCorrectedImage();
+
+        x[3] -= 20;
+        y1[2] += 10;
+        y2[2] -= 10;
+
+        break;
+      case "2":
+        selected = 2;
+        glassesimg.src = "assets/img/concave.png";
+        drawCorrectedImage();
+
+        x[3] += 20;
+        y1[2] -= 10;
+        y2[2] += 10;
+        break;
+
+      case "3":
+        selected = 3;
+        glassesimg.src = "assets/img/flat.png";
+
+        drawCorrectedImage();
+        break;
+
+      default:
+        console.log("sth went wrong");
+    }
+
+    drawLines();
+
+    checkAnswer();
+  });
+}
+
+function doQuiz() {
+  let correct_choice = 0;
+  let feedback = '';
+  let choice01 = '';
+  let choice02 = '';
+  let choice03 = '';
+  console.log("quiz");
+  $("#player").hide();
+  $("#quiz").show();
+
+  if (inQuiz) {
+    switch(quiz) {
+      case 1:
+        correct_choice = 1;
+        $("#problem-statement").html("Q1: If our friend, Greg, has myopic eyes, which type of lens does he need?");
+        choice01 = "<button id=1 class='choices btn btn-outline-secondary'>concave</button>"
+        choice02 = "<button id=2 class='choices btn btn-outline-secondary'>convex</button>"
+        choice03 = "<button id=3 class='choices btn btn-outline-secondary'>flat</button>"
+        $("#choices").html("").append(choice01).append(choice02).append(choice03);
+        $(".choices").click(function () {
+          if(this.id == correct_choice){
+            $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-success");
+            feedback = "<p>Well done! Concave lenses are used to correct myopic eyes. Convex ones are used for farsightedness peopel, and flat ones does not have correction effects.</p>";
+            $("#feedback-correct").append(feedback);
+            let nextButton = "<button id='next-quiz' class='btn btn-outline-dark'>Next Problem</button>";
+            $("#feedback-correct").append(nextButton);
+            $("#next-quiz").click(function () {
+              quiz = 2;
+              $("#feedback-correct").html("");
+              doQuiz();
+            });
+          } else {
+            $("#choices #"+ this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
+            if(this.id == 2){ 
+              feedback = "Ooops! Actually, convex lenses are used for farsightedness. Since our friend has myopic eyes, which is nearsightedness, we need to use concave lenses. ";
+            }
+            if (this.id == 3){
+              feedback = "Actually, flat lenses won't be able to help our friend see clearly. ";
+            }
+            $("#feedback-incorrect").append(feedback);
+            var againButton = "<button id='again-quiz' class='btn btn-outline-dark'>Try Again!</button>"
+            $("#feedback-incorrect").append(againButton);
+            $("#again-quiz").click(function () {
+              $("#feedback-incorrect").html("");
+              doQuiz();
+            });
+          }
+          $(".choices").attr('disabled', 'disabled');
+        });
+        break;
+      case 2:
+        correct_choice = 3;
+        $("#problem-statement").html("Q2: The picture on the left shows the light path when there is no lenses. If we put a lens there, as the right picture shows, where would the light focus?");
+        choice01 = "<button id=1 class='choices btn btn-outline-secondary'>Point A</button>"
+        choice02 = "<button id=2 class='choices btn btn-outline-secondary'>Point B</button>"
+        choice03 = "<button id=3 class='choices btn btn-outline-secondary'>Point C</button>"
+        $("#choices").html("").append(choice01).append(choice02).append(choice03);
+        $(".choices").click(function () {
+          if(this.id == correct_choice){
+            $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-success");
+            feedback = "<p>Right! This is a concave lens, and it expands light passing through. Thus the light would focus at Point C. Good job!</p>";
+            $("#feedback-correct").append(feedback);
+            var nextButton = "<button id='next-quiz' class='btn btn-outline-dark'>Next Problem!</button>"
+            $("#feedback-correct").append(nextButton);
+            
+            $("#next-quiz").click(function () {
+              quiz = 3;
+              $("#feedback-correct").html("");
+              doQuiz();
+            });
+          } else {
+            $("#choices #"+ this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
+            if(this.id == 1){ 
+              feedback = "Not quite. If the lens is a convex one, then the light will focus on Point A. But in the picture we used a concave lens. Try again!";
+            }
+            if (this.id == 2){
+              feedback = "Not quite. If the lens is a flat one, then the light will focus on Point B. But in the picture we used a concave lens. Try again!";
+            }
+            $("#feedback-incorrect").append(feedback);
+            var againButton = "<button id='again-quiz' class='btn btn-outline-dark'>Try Again!</button>"
+            $("#feedback-incorrect").append(againButton);
+            $("#again-quiz").click(function () {
+              $("#feedback-incorrect").html("");
+              doQuiz();
+            });
+          }
+          $(".choices").attr('disabled', 'disabled');
+          
+        });
+        break;
+      case 3:
+
+        correct_choice = 1;
+        $("#problem-statement").html("Q3: In the picture below, light passes through a lens in the box and changes its path. Do you know which type of lens it is?");
+        choice01 = "<button id=1 class='choices btn btn-outline-secondary'>Convex</button>"
+        choice02 = "<button id=2 class='choices btn btn-outline-secondary'>Concave</button>"
+        choice03 = "<button id=3 class='choices btn btn-outline-secondary'>Flat</button>"
+        $("#choices").html("").append(choice01).append(choice02).append(choice03);
+        $(".choices").click(function () {
+          if(this.id == correct_choice){
+            $("#choices #" + this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-success");
+            feedback = "You did it! Since the light is narrowed, we can infer that the lens in the box is a convex one. Good job!";
+            $("#feedback-correct").append(feedback);
+            var nextButton = "<button id='next-quiz' class='btn btn-outline-dark'>Finish!</button>"
+            $("#feedback-correct").append(nextButton);
+            $("#next-quiz").click(function () {
+              quiz = 4;
+              $("#feedback-correct").html("");
+              doQuiz();
+            });
+          } else {
+            $("#choices #"+ this.id.toString()).removeClass("btn-outline-secondary").addClass("btn-outline-danger");
+            if(this.id == 2){ 
+              feedback = "Not quite. A concave lens will expand the light a bit, so the light path will go toward the outside. Try again!";
+            }
+            if (this.id == 3){
+              feedback = "Nope. A flat lens won't change the light path. Try again!";
+            }
+            $("#feedback-incorrect").append(feedback);
+            var againButton = "<button id='again-quiz' class='btn btn-outline-dark'>Try Again!</button>"
+            $("#feedback-incorrect").append(againButton);
+            $("#again-quiz").click(function () {
+              $("#feedback-incorrect").html("");
+              doQuiz();
+            });
+          }
+          $(".choices").attr('disabled', 'disabled');
+        });
+        break;
+      default:
+        console.log("Quiz: sth wrong");
+        alert("Congratulations! You have finished this mini lecture. Good job!")
+    }
+  }
+}
+
+function clearCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function drawBackground() {
+  ctx.fillStyle = "#eeeeee";
+  ctx.fillRect(0, 0, 1024, 600);
+
+  let eyeimg = new Image();
+  eyeimg.onload = function () {
+    ctx.drawImage(eyeimg, 540, 220, 160, 160);
+  }
+  eyeimg.src = "assets/img/eyeball.svg";
+
+  let originalimg = new Image();
+  originalimg.onload = function () {
+    ctx.drawImage(originalimg, 50, 250, 100, 100);
+  }
+  originalimg.src = "assets/img/vision_clear.png";
+}
+
+function checkAnswer() {
+  if (selected === correct) {
+    $("#message p").html("Good! Your helped our friend see clearly. Let's go on and try another one!");
+    correct += 1;
+    $('.glasses').hide();
+    $("#next").show();
+
+    $("#next").click(function () {
+      $(".glasses").css({ "border": "1px solid aquamarine" });
+      selected = 0;
+      $(".glasses").show();
+      $("#next").hide();
+      clearCanvas();
+      drawBackground();
+      initializeLines();
+      drawLines();
+      drawCorrectedImage();
+
+    });
+  } else {
+    $("#message p").html("..");
+  }
+
+  if (correct > 3) {
+    var nextButton = "<button id='tell' class='btn btn-outline-secondary'>Let's Watch A Video!</button>"
+    $("#next").hide();
+    $("#message").append(nextButton);
+    $('#tell').click(function () {
+      console.log("tell");
+      scene += 1;
+      loadVideo(vid02, 1, 5, 'large');
+      setTimeout(stopVideo, 1000);
+      $("#main-canvas").hide();
+      $("#message").hide();
+      $("#player").show();
+    });
+
+    
+  }
+
+}
+
+function drawCorrectedImage() {
+  let img = new Image();
+  img.onload = function () {
+    ctx.drawImage(img, 750, 200, 200, 200);
+  }
+
+  if (selected === correct) {
+    img.src = "assets/img/vision_clear.png";
+  } else if (correct !== 3 && selected === 3) {
+    img.src = "assets/img/vision_blur.png";
+  } else if (correct === 1 && selected === 2 || correct === 2 && selected === 1) {
+    console.log("more blur")
+    img.src = "assets/img/vision_blur more.png";
+  } else if (correct === 3) {
+    img.src = "assets/img/vision_clear.png";
+  } else {
+    img.src = "assets/img/vision_blur.png";
+  }
+}
+
+function initializeLines() {
+  x = [150, 496, 580, 690];
+  y1 = [280, 280, 280, 300];
+  y2 = [320, 320, 320, 300];
+
+  switch (correct) {
+    case 1:
+      x[3] += 20
+      break;
+    case 2:
+
+      x[3] -= 20
+      break;
+    case 3:
+
+      break;
+    default:
+      console.log("something wrong");
+  }
+}
+
+function drawLines() {
+  canvas = document.getElementById("main-canvas");
+  ctx = canvas.getContext("2d");
+  ctx.beginPath();
+  console.log(x)
+  ctx.moveTo(x[0], y1[0]);
+  ctx.lineTo(x[1], y1[1]);
+  ctx.lineTo(x[2], y1[2]);
+  ctx.lineTo(x[3], y1[3]);
+  ctx.moveTo(x[0], y2[0]);
+  ctx.lineTo(x[1], y2[1]);
+  ctx.lineTo(x[2], y2[2]);
+  ctx.lineTo(x[3], y2[3]);
+  ctx.stroke();
+}

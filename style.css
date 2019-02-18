@@ -5,15 +5,60 @@ html {
 #main {
   display: flex;
   justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
+  /* width: 100%; */
 }
 #player {
-  margin: 0 auto;
-
+  /* position: absolute; */
+  top: 20%;
+  margin: auto;
+  display: block;
 }
 
 #main-canvas {
-  position: absolute;
-  width: 800px;
+  /* position: absolute; */
+  top: 20%;
+  width: 1024px;
   height: 600px;
+}
+
+#choose-one {
+  width: 100%;
+  height: 170px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.glasses {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  border: 1px solid aquamarine;
+  justify-content: center;
+}
+
+.glasses img {
+  height: 100%;
+  margin: 0 auto;
+}
+
+#message {
+  /* margin-top: 650px; */
+  height: 100px;
+}
+
+#quiz {
+  width: 600px;
+  border: 1px solid #888;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.choices {
+  display: block;
+
+  width: 200px;
+  margin: 10px 50px;
 }
