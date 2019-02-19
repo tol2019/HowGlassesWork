@@ -136,6 +136,7 @@ function onPlayerStateChange(event) {
     // done = false;
     // play the first video
     calculateTime(26000);
+    // calculateTime(2000);
 
   }
 
@@ -190,8 +191,9 @@ function explore() {
   $("#message").show();
   // $("#message p").html("Choose one of the three lenses to see if it helps our friend see clearly.");
 
+
   if(correct === 1) {
-    var message = "The image on the right represents Greg's vision! Greg is nearsighted, try different types of lens and see how these lens affect his vision. When you think you figure out, click next one."
+    var message = "The image on the right represents Greg's vision! Greg is nearsighted, try different types of lens and see how these lens affect his vision. When you think you figure out, click next one.";
   }
   if(correct === 2){
     var message = "Greg is farsighted, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
@@ -459,7 +461,20 @@ function checkAnswer() {
       inExplore = true;
       correct += 1;
       $(".glasses").css({ "border": "1px solid aquamarine" });
-      $("#message p").html("");
+      // $("#message p").html("");
+
+      if(correct === 1) {
+        var message = "The image on the right represents Greg's vision! Greg is nearsighted, try different types of lens and see how these lens affect his vision. When you think you figure out, click next one.";
+      }
+      if(correct === 2){
+        var message = "Greg is farsighted, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
+      }
+
+      if(correct === 3){
+        var message = "Greg now has perfect vision, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
+      }
+
+      $("#message p").html(message);
       selected = 0;
       // $(".glasses").show();
       $("#next").remove();
