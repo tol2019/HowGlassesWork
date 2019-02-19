@@ -9,10 +9,8 @@ html {
   /* width: 100%; */
 }
 #player {
-  position: absolute;
+  /* position: absolute; */
   align-self: center;
-  top: 20%;
-  left: 22.5%;
   display: block;
   z-index: -10;
 }

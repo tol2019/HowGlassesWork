@@ -184,6 +184,8 @@ function onPlayerStateChange(event) {
 
 function explore() {
   // let glasses = 0;
+
+  $("#player").css({'position':'absolute', 'top':"25%", 'left':'25%', 'width':'300px', 'height':'200px'});
   $(".glasses").show();
   $("#message").show();
   $("#message p").html("Choose one of the three lenses to see if it helps our friend see clearly.");
@@ -467,6 +469,7 @@ function checkAnswer() {
     $("#message").append(nextButton);
     $('#tell').click(function () {
       stopVideo();
+      $("#player").removeAttr("style").css({'margin':'0 auto', 'display':'block', 'width':'900px', 'height':'600px'});
       console.log("tell");
       scene = 4;
       loadVideo(vid02, 32, 156, 'large');
