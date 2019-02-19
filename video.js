@@ -34,9 +34,9 @@ var tag = document.createElement('script');
 // var vid03 = 'dhWzrwvgES4';
 
 // updated combined video:
-var vid01 = '7CHOtoRR8Gk';
-var vid02 = '7CHOtoRR8Gk';
-var vid03 = '7CHOtoRR8Gk';
+var vid01 = 'QiFjkwA5eyI';
+var vid02 = 'QiFjkwA5eyI';
+var vid03 = 'QiFjkwA5eyI';
 
 
 var backgroundPlayed = false;
