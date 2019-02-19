@@ -34,14 +34,15 @@ var tag = document.createElement('script');
 // var vid03 = 'dhWzrwvgES4';
 
 // updated combined video:
-var vid01 = '3lisLHb_-u8';
-var vid02 = '3lisLHb_-u8';
-var vid03 = '3lisLHb_-u8';
+var vid01 = '7CHOtoRR8Gk';
+var vid02 = '7CHOtoRR8Gk';
+var vid03 = '7CHOtoRR8Gk';
 
 
 var backgroundPlayed = false;
 
 var paused = false;
+var startedCalculating = false;
 
 
 
@@ -93,6 +94,7 @@ function stopVideo() {
 }
 
 function calculateTime(videoLength){
+  startedCalculating = true;
   let length = 0;
   console.log(videoLength);
   
@@ -111,6 +113,7 @@ function calculateTime(videoLength){
     if (length >= videoLength) {
 
       stopVideo();
+      startedCalculating = false;
       clearInterval(interval);
       console.log("interval cleared");
     }
@@ -132,10 +135,10 @@ function calculateTime(videoLength){
 //    the player should play for 3 seconds and then stop.
 var done = false;
 function onPlayerStateChange(event) {
-  if (event.data == YT.PlayerState.PLAYING && scene === 0) {
+  if (event.data == YT.PlayerState.PLAYING && scene === 0 && !startedCalculating) {
     // done = false;
     // play the first video
-    calculateTime(26000);
+    calculateTime(29000);
     // calculateTime(2000);
 
   }
@@ -186,7 +189,7 @@ function onPlayerStateChange(event) {
 function explore() {
   // let glasses = 0;
 
-  $("#player").css({'position':'absolute', 'top':"25%", 'left':'25%', 'width':'300px', 'height':'200px'});
+  $("#player").css({'position':'absolute', 'top':"45%", 'left':'45%', 'width':'30px', 'height':'20px'});
   $(".glasses").show();
   $("#message").show();
   // $("#message p").html("Choose one of the three lenses to see if it helps our friend see clearly.");
@@ -502,7 +505,7 @@ function checkAnswer() {
       $("#player").removeAttr("style").css({'margin':'0 auto', 'display':'block', 'width':'900px', 'height':'600px'});
       console.log("tell");
       scene = 4;
-      loadVideo(vid02, 32, 156, 'large');
+      loadVideo(vid02, 33, 152, 'large');
       // setTimeout(stopVideo, 126000);
       $("#main-canvas").hide();
       $(".glasses").hide();
@@ -554,7 +557,7 @@ function initializeLines() {
   switch (correct) {
     case 1:
       if (!backgroundPlayed) {
-        loadVideo(vid01, 163, 201, 'large');
+        loadVideo(vid01, 153, 194, 'large');
         backgroundPlayed = true;
       }
       x[3] -= 20
@@ -562,7 +565,7 @@ function initializeLines() {
       break;
     case 2:
       if (!backgroundPlayed) {
-        loadVideo(vid01, 206, 228, 'large');
+        loadVideo(vid01, 196, 220, 'large');
         backgroundPlayed = true;
       }
 
@@ -570,7 +573,7 @@ function initializeLines() {
       break;
     case 3:
       if (!backgroundPlayed) {
-        loadVideo(vid01, 229, 250, 'large');
+        loadVideo(vid01, 219, 240, 'large');
         backgroundPlayed = true;
       }
 
