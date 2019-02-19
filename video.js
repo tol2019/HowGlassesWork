@@ -188,7 +188,20 @@ function explore() {
   $("#player").css({'position':'absolute', 'top':"25%", 'left':'25%', 'width':'300px', 'height':'200px'});
   $(".glasses").show();
   $("#message").show();
-  $("#message p").html("Choose one of the three lenses to see if it helps our friend see clearly.");
+  // $("#message p").html("Choose one of the three lenses to see if it helps our friend see clearly.");
+
+  if(correct === 1) {
+    var message = "The image on the right represents Greg's vision! Greg is nearsighted, try different types of lens and see how these lens affect his vision. When you think you figure out, click next one."
+  }
+  if(correct === 2){
+    var message = "Greg is farsighted, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
+  }
+
+  if(correct === 3){
+    var message = "Greg now has perfect vision, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
+  }
+
+  $("#message p").html(message);
 
   console.log("scene 3");
   // $("#player").hide();
@@ -433,7 +446,9 @@ function drawBackground() {
 
 function checkAnswer() {
   if (selected === correct) {
-    $("#message p").html("Good! Your helped our friend see clearly. Let's go on and try in another situation! You can also play around on this situation to see the effects.");
+    // $("#message p").html("Good! Your helped our friend see clearly. Let's go on and try in another situation! You can also play around on this situation to see the effects.");
+    
+
     inExplore = false;
     
     // $('.glasses').hide();
@@ -458,7 +473,7 @@ function checkAnswer() {
       drawCorrectedImage();
     });
   } else {
-    $("#message p").html("Ah oh... it seems Greg can still not see it clearly. Lets's try another one!");
+    // $("#message p").html("Ah oh... it seems Greg can still not see it clearly. Lets's try another one!");
   }
 
   if (correct >= 3 && selected === correct) {
