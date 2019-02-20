@@ -505,7 +505,7 @@ function checkAnswer() {
       $("#player").removeAttr("style").css({'margin':'0 auto', 'display':'block', 'width':'900px', 'height':'600px'});
       console.log("tell");
       scene = 4;
-      loadVideo(vid02, 33, 148, 'large');
+      loadVideo(vid02, 33, 152, 'large');
       // setTimeout(stopVideo, 126000);
       $("#main-canvas").hide();
       $(".glasses").hide();
