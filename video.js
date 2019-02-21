@@ -78,7 +78,7 @@ function loadVideo(id, startSeconds, endSeconds, suggestedQuality) {
   let videoLength = endSeconds - startSeconds;
   videoLength *= 1000;
 
-  calculateTime(videoLength);
+  calculateTime(startSeconds, endSeconds, videoLength);
 
 }
 
@@ -93,27 +93,39 @@ function stopVideo() {
 
 }
 
-function calculateTime(videoLength){
+function calculateTime(start, end, videoLength){
   startedCalculating = true;
   let length = 0;
   console.log(videoLength);
-  
+
+  console.log("end", end);
+
   var interval = setInterval(function () {
+    console.log(player.getCurrentTime());
     if(player.getPlayerState() === 2) { // paused
       paused = true;
     }
     if(player.getPlayerState() === 1) { // playing
       paused = false;
     }
+
     if (!paused) {
       length += 500;
     }
-    console.log(length);
+    // console.log(length);
 
-    if (length >= videoLength) {
+    // if (length >= videoLength || player.getCurrentTime() >= end) {
+      if ( player.getCurrentTime() >= end) {
+        if (end === 151.5) {
+          inQuiz = true;
+          console.log("quiz");
 
+          quiz = 1;
+          doQuiz();
+        }
       stopVideo();
       startedCalculating = false;
+      
       clearInterval(interval);
       console.log("interval cleared");
     }
@@ -138,7 +150,7 @@ function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && scene === 0 && !startedCalculating) {
     // done = false;
     // play the first video
-    calculateTime(29000);
+    calculateTime(0, 29.5, 29000);
     // calculateTime(2000);
 
   }
@@ -505,7 +517,7 @@ function checkAnswer() {
       $("#player").removeAttr("style").css({'margin':'0 auto', 'display':'block', 'width':'900px', 'height':'600px'});
       console.log("tell");
       scene = 4;
-      loadVideo(vid02, 33, 152, 'large');
+      loadVideo(vid02, 33, 151.5, 'large');
       // setTimeout(stopVideo, 126000);
       $("#main-canvas").hide();
       $(".glasses").hide();
