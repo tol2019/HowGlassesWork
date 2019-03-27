@@ -75,7 +75,6 @@ function loadVideo(id, startSeconds, endSeconds, suggestedQuality) {
   videoLength *= 1000;
 
   calculateTime(startSeconds, endSeconds, videoLength);
-
 }
 
 // 4. The API will call this function when the video player is ready.
