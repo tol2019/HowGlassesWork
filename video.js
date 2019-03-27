@@ -29,10 +29,6 @@ let y2 = [320, 320, 320, 300]
 // video player code from youtube
 var tag = document.createElement('script');
 
-// var vid01 = 'gb304u_rMpo';
-// var vid02 = '3OJXZnSBrE4';
-// var vid03 = 'dhWzrwvgES4';
-
 // updated combined video:
 var vid01 = 'QiFjkwA5eyI';
 var vid02 = 'QiFjkwA5eyI';
@@ -59,7 +55,7 @@ function onYouTubeIframeAPIReady() {
     height: '600',
     width: '900',
     videoId: vid01,
-    playerVars: { 'autoplay': 0, 'controls': 0 , 'showinfo': 0, 'modestbranding':1},
+    playerVars: { 'autoplay': 0, 'controls': 1, 'showinfo': 0, 'modestbranding': 1 },
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
@@ -93,7 +89,7 @@ function stopVideo() {
 
 }
 
-function calculateTime(start, end, videoLength){
+function calculateTime(start, end, videoLength) {
   startedCalculating = true;
   let length = 0;
   console.log(videoLength);
@@ -102,10 +98,10 @@ function calculateTime(start, end, videoLength){
 
   var interval = setInterval(function () {
     console.log(player.getCurrentTime());
-    if(player.getPlayerState() === 2) { // paused
+    if (player.getPlayerState() === 2) { // paused
       paused = true;
     }
-    if(player.getPlayerState() === 1) { // playing
+    if (player.getPlayerState() === 1) { // playing
       paused = false;
     }
 
@@ -115,22 +111,22 @@ function calculateTime(start, end, videoLength){
     // console.log(length);
 
     // if (length >= videoLength || player.getCurrentTime() >= end) {
-      if ( player.getCurrentTime() >= end) {
-        if (end === 151.5) {
-          inQuiz = true;
-          console.log("quiz");
+    if (player.getCurrentTime() >= end) {
+      if (end === 151.5) {
+        inQuiz = true;
+        console.log("quiz");
 
-          quiz = 1;
-          doQuiz();
-        }
+        quiz = 1;
+        doQuiz();
+      }
       stopVideo();
       startedCalculating = false;
-      
+
       clearInterval(interval);
       console.log("interval cleared");
     }
 
-    $("#next").click(function(){
+    $("#next").click(function () {
       clearInterval(interval);
     });
 
@@ -139,7 +135,7 @@ function calculateTime(start, end, videoLength){
     });
   }, 500);
 
-  
+
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -201,20 +197,20 @@ function onPlayerStateChange(event) {
 function explore() {
   // let glasses = 0;
 
-  $("#player").css({'position':'absolute', 'top':"45%", 'left':'45%', 'width':'30px', 'height':'20px'});
+  $("#player").css({ 'position': 'absolute', 'top': "45%", 'left': '45%', 'width': '30px', 'height': '20px' });
   $(".glasses").show();
   $("#message").show();
   // $("#message p").html("Choose one of the three lenses to see if it helps our friend see clearly.");
 
 
-  if(correct === 1) {
+  if (correct === 1) {
     var message = "The image on the right represents Greg's vision! Greg is nearsighted, try different types of lens and see how these lens affect his vision. When you think you figure out, click next one.";
   }
-  if(correct === 2){
+  if (correct === 2) {
     var message = "Greg is farsighted, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
   }
 
-  if(correct === 3){
+  if (correct === 3) {
     var message = "Greg now has perfect vision, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
   }
 
@@ -284,11 +280,11 @@ function explore() {
 
     drawLines();
 
-    if (inExplore){
+    if (inExplore) {
       checkAnswer();
     }
 
-    
+
   });
 }
 
@@ -464,10 +460,10 @@ function drawBackground() {
 function checkAnswer() {
   if (selected === correct) {
     // $("#message p").html("Good! Your helped our friend see clearly. Let's go on and try in another situation! You can also play around on this situation to see the effects.");
-    
+
 
     inExplore = false;
-    
+
     // $('.glasses').hide();
     $("#message").append("<button class='btn btn-outline-secondary' id='next'>Next One!</button>")
     // $("#next").show();
@@ -478,14 +474,14 @@ function checkAnswer() {
       $(".glasses").css({ "border": "1px solid aquamarine" });
       // $("#message p").html("");
 
-      if(correct === 1) {
+      if (correct === 1) {
         var message = "The image on the right represents Greg's vision! Greg is nearsighted, try different types of lens and see how these lens affect his vision. When you think you figure out, click next one.";
       }
-      if(correct === 2){
+      if (correct === 2) {
         var message = "Greg is farsighted, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
       }
 
-      if(correct === 3){
+      if (correct === 3) {
         var message = "Greg now has perfect vision, try different types of lens and see how these lens affect his vision.When you think you figure out, click next one.";
       }
 
@@ -514,7 +510,7 @@ function checkAnswer() {
     $("#message").append(nextButton);
     $('#tell').click(function () {
       stopVideo();
-      $("#player").removeAttr("style").css({'margin':'0 auto', 'display':'block', 'width':'900px', 'height':'600px'});
+      $("#player").removeAttr("style").css({ 'margin': '0 auto', 'display': 'block', 'width': '900px', 'height': '600px' });
       console.log("tell");
       scene = 4;
       loadVideo(vid02, 33, 151.5, 'large');
@@ -539,23 +535,23 @@ function drawCorrectedImage() {
   if (selected === correct) {
     img.src = "assets/img/vision_clear.png";
   }
-  
+
   if (correct !== 3 && selected === 3) {
     img.src = "assets/img/vision_blur.png";
-  } 
-  
+  }
+
   if (correct === 1 && selected === 2 || correct === 2 && selected === 1) {
     console.log("more blur")
     img.src = "assets/img/vision_blur more.png";
-  } 
+  }
 
   if (correct === 3) {
     img.src = "assets/img/vision_clear.png";
-    if(selected !== 0 && selected !== 3){
+    if (selected !== 0 && selected !== 3) {
       console.log("case 3, wrong answer");
       img.src = "assets/img/vision_blur.png";
     }
-  } 
+  }
 
 }
 
