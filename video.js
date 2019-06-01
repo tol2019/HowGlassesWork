@@ -85,7 +85,7 @@ function onPlayerReady(event) {
 function stopVideo() {
   player.stopVideo();
   scene += 1;
-
+  console.log("Stopping video. scene: ", scene)
 }
 
 function calculateTime(start, end, videoLength) {
@@ -105,7 +105,7 @@ function calculateTime(start, end, videoLength) {
     }
 
     if (!paused) {
-      length += 500;
+      length += 200;
     }
     // console.log(length);
 
@@ -118,9 +118,10 @@ function calculateTime(start, end, videoLength) {
         quiz = 1;
         doQuiz();
       }
-      stopVideo();
-      startedCalculating = false;
 
+      stopVideo();
+      if (scene === 1) explore();
+      startedCalculating = false;
       clearInterval(interval);
       console.log("interval cleared");
     }
@@ -132,7 +133,7 @@ function calculateTime(start, end, videoLength) {
     $('#tell').click(function () {
       clearInterval(interval);
     });
-  }, 500);
+  }, 200);
 
 
 }
@@ -153,26 +154,7 @@ function onPlayerStateChange(event) {
   if (player.getPlayerState() === 2) {
 
     $("#player").show();
-
-    switch (scene) {
-      case 1:
-
-        break;
-
-      // case 4:
-      //   console.log(scene);
-
-      //   break;
-      case 5:
-        console.log(scene);
-        // loadVideo(vid03, 66, 158, 'large');
-
-        // setTimeout(stopVideo, 4000);
-        break;
-
-      default:
-        console.log("default");
-    }
+    console.log("Scene: ", scene)
 
     if (scene === 1) {
       // farsightedness
